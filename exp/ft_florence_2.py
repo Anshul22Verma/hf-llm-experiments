@@ -24,6 +24,7 @@ if __name__ == "__main__":
     
     
     args = parser.parse_args()
+    print(args.output_dir)
     os.makedirs(args.output_dir, exist_ok=True)
     log_dir = os.path.join(args.output_dir, "runs")
     os.makedirs(log_dir, exist_ok=True)

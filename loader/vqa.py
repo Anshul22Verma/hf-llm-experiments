@@ -24,7 +24,7 @@ class ArtworkTaggingDataset(Dataset):
         
     def __getitem__(self, idx):
         example = self.df.iloc[idx]
-        question = "<DocVQA>" + example['question'] 
+        question = "<OCR>" + example['ocr'] + " <DocVQA>" + example['question']
         first_answer = example['answers'][0]
         image = Image.open(example['image']).convert("RGB")
         return question, first_answer, image
