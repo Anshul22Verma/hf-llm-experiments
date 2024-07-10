@@ -1,8 +1,9 @@
 import argparse
 import os
-from transformers import AdamW, get_scheduler
+from transformers import get_scheduler
 from tqdm import tqdm
 import torch
+
 
 from loader.vqa import get_artwork_tagging_loaders
 from model.florence_2 import florence_model
@@ -39,7 +40,7 @@ if __name__ == "__main__":
                                                            device=device)
 
     epochs = int(args.epochs)
-    optimizer = AdamW(model.parameters(), lr=1e-6)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-6)
     num_training_steps = epochs * len(train_loader)
 
     lr_scheduler = get_scheduler(name="linear", optimizer=optimizer, 
