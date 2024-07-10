@@ -48,7 +48,7 @@ def validate_one_epoch(model, processor,
 def train(model, processor, train_loader, val_loader, optimizer, lr_scheduler, epochs: int,
           checkpoint_dir: str, tb_loc: str, suffix: str):
     writer = SummaryWriter(
-        logdir=tb_loc,
+        log_dir=tb_loc,
         filename_suffix=suffix
     )
 
@@ -73,7 +73,7 @@ def train(model, processor, train_loader, val_loader, optimizer, lr_scheduler, e
         
         writer.add_scalar("Loss/Train", avg_train_loss, epoch+1)
         writer.add_scalar("Loss/Val", avg_val_loss, epoch+1)
-        
+
         output_dir = os.path.join(checkpoint_dir, f"epoch_{epoch+1}")
         os.makedirs(output_dir, exist_ok=True)
         model.save_pretrained(output_dir)
