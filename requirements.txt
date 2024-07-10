@@ -1,5 +1,9 @@
 datasets
-flash_attn
+# flash_attn==2.1.1
 pandas
+scikit-learn
 timm
+torch
+transformers
+tensorboard
 einops

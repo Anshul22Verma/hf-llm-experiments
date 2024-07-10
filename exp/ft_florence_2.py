@@ -32,7 +32,7 @@ if __name__ == "__main__":
     model, processor = florence_model(train_vision_tower=False)
 
     train_loader, val_loader = get_artwork_tagging_loaders(processor=processor, 
-                                                           dataset_csv=args.dataset_csv,
+                                                           dataset_csv=args.data_csv,
                                                            batch_size=args.batch_size, 
                                                            num_workers=args.num_workers)
 
