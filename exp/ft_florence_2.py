@@ -33,10 +33,10 @@ if __name__ == "__main__":
 
     train_loader, val_loader = get_artwork_tagging_loaders(processor=processor, 
                                                            dataset_csv=args.data_csv,
-                                                           batch_size=args.batch_size, 
-                                                           num_workers=args.num_workers)
+                                                           batch_size=int(args.batch_size), 
+                                                           num_workers=int(args.num_workers))
 
-    epochs = args.epochs
+    epochs = int(args.epochs)
     optimizer = AdamW(model.parameters(), lr=1e-6)
     num_training_steps = epochs * len(train_loader)
 
