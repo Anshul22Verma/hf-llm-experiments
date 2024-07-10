@@ -1,0 +1,5 @@
+datasets
+flash_attn
+pandas
+timm
+einops
