@@ -24,7 +24,7 @@ class ArtworkTaggingDataset(Dataset):
         
     def __getitem__(self, idx):
         example = self.df.iloc[idx]
-        question = "ocr_text: " + example['ocr'] + " <DocVQA>" + " Extract attributes from the artwork image and OCR in a JSON"  # example['question']
+        question = "ocr_text: " + example['ocr'][:1000] + " <DocVQA>" + " Extract attributes from the artwork image and OCR in a JSON"  # example['question']
         first_answer = example['answers'][0]
         image = Image.open(example['image']).convert("RGB")
         return question, first_answer, image
