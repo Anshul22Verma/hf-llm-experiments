@@ -1,11 +1,10 @@
 from transformers import AutoModelForCausalLM, AutoProcessor
 import torch
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
-
 
 def florence_model(
-    train_vision_tower: bool = False
+    train_vision_tower: bool = False,
+    device = torch.cuda()
 ):
     florence_model = AutoModelForCausalLM.from_pretrained(
         "microsoft/Florence-2-base-ft",

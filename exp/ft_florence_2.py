@@ -29,13 +29,15 @@ if __name__ == "__main__":
     log_dir = os.path.join(args.output_dir, "runs")
     os.makedirs(log_dir, exist_ok=True)
     
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
 
-    model, processor = florence_model(train_vision_tower=False)
+    model, processor = florence_model(train_vision_tower=False, device=device)
 
     train_loader, val_loader = get_artwork_tagging_loaders(processor=processor, 
                                                            dataset_csv=args.data_csv,
                                                            batch_size=int(args.batch_size), 
-                                                           num_workers=int(args.num_workers))
+                                                           num_workers=int(args.num_workers),
+                                                           device=device)
 
     epochs = int(args.epochs)
     optimizer = AdamW(model.parameters(), lr=1e-6)
@@ -56,5 +58,6 @@ if __name__ == "__main__":
             epochs=epochs,
             tb_loc=log_dir,
             checkpoint_dir=args.output_dir,
-            suffix="florence_2"
+            suffix="florence_2",
+            device=device
         )

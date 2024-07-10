@@ -31,7 +31,7 @@ class ArtworkTaggingDataset(Dataset):
     
 
 def get_artwork_tagging_loaders(processor, dataset_csv: str, batch_size: int=1,
-                                num_workers: int=0):
+                                num_workers: int=0, device = torch.cuda()):
     def collate_fn(batch): 
         questions, answers, images = zip(*batch)
         inputs = processor(text=list(questions), images=list(images), return_tensors="pt", padding=True).to(device)

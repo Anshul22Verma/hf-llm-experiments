@@ -6,7 +6,8 @@ from tqdm import tqdm
 
 def train_one_epoch(model, processor,
                     train_loader, optimizer, 
-                    lr_scheduler, desc: str="Training Epoch"):
+                    lr_scheduler, desc: str="Training Epoch", 
+                    device = torch.cuda()):
     model.train() 
     train_loss = 0
     i = -1
@@ -28,7 +29,8 @@ def train_one_epoch(model, processor,
 
 
 def validate_one_epoch(model, processor,
-                       val_loader, desc: str="Validation Epoch"):
+                       val_loader, desc: str="Validation Epoch", 
+                       device = torch.cuda()):
     model.eval()
     val_loss = 0
     with torch.no_grad():
@@ -46,7 +48,7 @@ def validate_one_epoch(model, processor,
       
 
 def train(model, processor, train_loader, val_loader, optimizer, lr_scheduler, epochs: int,
-          checkpoint_dir: str, tb_loc: str, suffix: str):
+          checkpoint_dir: str, tb_loc: str, suffix: str, device = torch.cuda()):
     writer = SummaryWriter(
         log_dir=tb_loc,
         filename_suffix=suffix
@@ -60,7 +62,8 @@ def train(model, processor, train_loader, val_loader, optimizer, lr_scheduler, e
                 train_loader=train_loader,
                 optimizer=optimizer,
                 lr_scheduler=lr_scheduler,
-                desc=f"Training Epoch {epoch + 1}/{epochs}"
+                desc=f"Training Epoch {epoch + 1}/{epochs}",
+                device=device
             )
 
         model, avg_val_loss = \
@@ -68,7 +71,8 @@ def train(model, processor, train_loader, val_loader, optimizer, lr_scheduler, e
                 model=model,
                 processor=processor,
                 val_loader=val_loader,
-                desc=f"Validation Epoch {epoch + 1}/{epochs}"
+                desc=f"Validation Epoch {epoch + 1}/{epochs}",
+                device=device
             )
         
         writer.add_scalar("Loss/Train", avg_train_loss, epoch+1)
