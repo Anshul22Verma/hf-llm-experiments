@@ -4,7 +4,7 @@ import torch
 
 def florence_model(
     train_vision_tower: bool = False,
-    device = torch.cuda()
+    device = torch.device("cuda")
 ):
     florence_model = AutoModelForCausalLM.from_pretrained(
         "microsoft/Florence-2-base-ft",

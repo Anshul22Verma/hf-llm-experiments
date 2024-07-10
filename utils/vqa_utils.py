@@ -7,7 +7,7 @@ from tqdm import tqdm
 def train_one_epoch(model, processor,
                     train_loader, optimizer, 
                     lr_scheduler, desc: str="Training Epoch", 
-                    device = torch.cuda()):
+                    device = torch.device("cuda")):
     model.train() 
     train_loss = 0
     i = -1
@@ -30,7 +30,7 @@ def train_one_epoch(model, processor,
 
 def validate_one_epoch(model, processor,
                        val_loader, desc: str="Validation Epoch", 
-                       device = torch.cuda()):
+                       device = torch.device("cuda")):
     model.eval()
     val_loss = 0
     with torch.no_grad():
@@ -48,7 +48,7 @@ def validate_one_epoch(model, processor,
       
 
 def train(model, processor, train_loader, val_loader, optimizer, lr_scheduler, epochs: int,
-          checkpoint_dir: str, tb_loc: str, suffix: str, device = torch.cuda()):
+          checkpoint_dir: str, tb_loc: str, suffix: str, device = torch.device("cuda")):
     writer = SummaryWriter(
         log_dir=tb_loc,
         filename_suffix=suffix
