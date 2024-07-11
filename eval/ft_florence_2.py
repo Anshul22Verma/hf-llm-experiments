@@ -30,7 +30,7 @@ if __name__ == "__main__":
     processor = AutoProcessor.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
     """
 
-    prompt = "<OD> Extract attributes brand, variety, weight of the product from artwork image in a valid key-value pair JSON."
+    prompt = "<OD>"
 
     image = Image.open(args.image_loc)
 
