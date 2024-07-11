@@ -24,7 +24,7 @@ if __name__ == "__main__":
     ).to(device)
     processor = AutoProcessor.from_pretrained(
         model_id, trust_remote_code=True, config=config
-    ).to(device)
+    )
     """
     model = AutoModelForCausalLM.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
     processor = AutoProcessor.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     image = Image.open(args.image_loc)
 
-    inputs = processor(text=prompt, images=image, return_tensors="pt")
+    inputs = processor(text=prompt, images=image, return_tensors="pt").to(device)
 
     generated_ids = model.generate(
         input_ids=inputs["input_ids"],
