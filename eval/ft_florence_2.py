@@ -24,7 +24,7 @@ if __name__ == "__main__":
     ).to(device)
     processor = AutoProcessor.from_pretrained(
         model_id, trust_remote_code=True, config=config
-    )
+    ).to(device)
     """
     model = AutoModelForCausalLM.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
     processor = AutoProcessor.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
