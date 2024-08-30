@@ -25,14 +25,14 @@ class ArtworkTaggingDataset(Dataset):
     def __getitem__(self, idx):
         example = self.df.iloc[idx]
         # print(example['image'])
-        question = "<DocVQA>" + " Extract attributes brand, variety, weight of the product from artwork image in a valid key-value pair JSON."  # example['question']
+        question = "<DocVQA>" + " Extract all attributes like brand, variety, weight of the product from artwork image in a valid key-value pair JSON."  # example['question']
         attr = eval(example['answers'])
-        ans = {
-            "Brand": attr["Brand"],
-            "Variety": attr["Variety"],
-            "Weight": attr["Weight"]
-        }
-        first_answer = str(ans)
+        ans = attr  # {
+        #     "Brand": attr["Brand"],
+        #     "Variety": attr["Variety"],
+        #     "Weight": attr["Weight"]
+        # }
+        first_answer = str(ans)[:1000]
         image = Image.open(example['image']).convert("RGB")
         return question, first_answer, image
     

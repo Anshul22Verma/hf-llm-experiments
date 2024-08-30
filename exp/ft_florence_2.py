@@ -9,6 +9,9 @@ from loader.vqa import get_artwork_tagging_loaders
 from model.florence_2 import florence_model
 from utils.vqa_utils import train
 
+os.environ['TORCH_USE_CUDA_DSA'] = "1"
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--data_csv', 
