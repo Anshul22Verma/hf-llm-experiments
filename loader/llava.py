@@ -47,6 +47,7 @@ class ArtworkTaggingDataset(Dataset):
         
         # first_answer = str(ans)[:2000]
         image = Image.open(example['image']).convert("RGB")
+        print(image)
         return {"messages": messages, "images": [image]}
 
 

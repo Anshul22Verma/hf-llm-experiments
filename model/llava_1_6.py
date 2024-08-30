@@ -99,5 +99,6 @@ def get_llava_tokenizer(processor):
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
     tokenizer.chat_template = LLAVA_CHAT_TEMPLATE
     processor = AutoProcessor.from_pretrained(MODEL_ID)
+    tokenizer.padding_side = 'right'
     processor.tokenizer = tokenizer
     return tokenizer, processor
