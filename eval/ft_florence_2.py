@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     prompt = "<DocVQA>" + " Extract all attributes like brand, variety, weight of the product from artwork image in a valid key-value pair JSON."
 
-    image = Image.open(args.image_loc)
+    image = Image.open(args.image_loc).mode("RGB")
     print(image)
     print(image.shape)
 
