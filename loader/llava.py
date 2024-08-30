@@ -33,22 +33,23 @@ class ArtworkTaggingDataset(Dataset):
         for k in attr.keys():
             if i == 0:
                 messages.append({
-                        "content": [{"index": None, "text": f"What is {k} for this product?\n", "type": "text"},
+                        "content": [{"index": 0, "text": f"What is {k} for this product?\n", "type": "text"},
                                     {"index": 0, "text": None, "type": "image"}],
                         "role": "user"})
             else:
                 messages.append({
-                        "content": [{"index": None, "text": f"What is {k} for this product?\n", "type": "text"}],
+                        "content": [{"index": i, "text": f"What is {k} for this product?\n", "type": "text"}],
                         "role": "user"})
             messages.append({
-                    "content": [{"index": None, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
+                    "content": [{"index": i, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
                     "role": "assistant"})
             i += 1
+        
         messages.append({
-                "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n", "type": "text"}],
+                "content": [{"index": i, "text": f"Extract all the key-fields about the product in the artwork?\n", "type": "text"}],
                 "role": "user"})
         messages.append({
-                "content": [{"index": None, "text": str(attr), "type": "text"}],
+                "content": [{"index": i, "text": str(attr), "type": "text"}],
                 "role": "assistant"})
         
         # first_answer = str(ans)[:2000]
