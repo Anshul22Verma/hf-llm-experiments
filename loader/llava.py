@@ -63,6 +63,7 @@ class LLavaDataCollator:
         self.processor = processor
 
     def __call__(self, examples):
+        print(examples)
         texts = []
         images = []
         for example in examples:
@@ -79,7 +80,7 @@ class LLavaDataCollator:
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
         batch["labels"] = labels
-
+        print(batch)
         return batch
 
 def get_artwork_tagging_datasets(dataset_csv: str):
