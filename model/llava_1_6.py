@@ -10,7 +10,7 @@ def find_all_linear_names(model):
     lora_module_names = set()
     multimodal_keywords = ["multi_modal_projector", "vision_model"]
 
-    for name, module in model.name_modules():
+    for name, module in model.named_modules():
         if any(mm_keyword in name for mm_keyword in multimodal_keywords):
             continue
         if isinstance(module, cls):
