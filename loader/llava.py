@@ -29,13 +29,13 @@ class ArtworkTaggingDataset(Dataset):
         # print(example['image'])
         attr = eval(example['answers'])
         messages = []
-        for k in attr:
+        for k in attr.keys():
             messages.append({
                     "content": [{"index": None, "text": f"What is {k} for this product?\n", "type": "text"},
                                 {"index": 0, "text": None, "type": "image"}],
                     "role": "user"})
             messages.append({
-                    "content": [{"index": None, "text": f"{k}: {attr[k]}", "type": "text"}],
+                    "content": [{"index": None, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
                     "role": "assistant"})
         messages.append({
                 "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n", "type": "text"},
