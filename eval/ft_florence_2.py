@@ -26,11 +26,11 @@ if __name__ == "__main__":
         model_id, trust_remote_code=True, config=config
     )
     """
-    model = AutoModelForCausalLM.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
-    processor = AutoProcessor.from_pretrained("/Users/vermaa/Desktop/runs/epoch_10", local_files_only=True)
+    model = AutoModelForCausalLM.from_pretrained("/Users/vermaa/Downloads/models/epoch_10", local_files_only=True)
+    processor = AutoProcessor.from_pretrained("/Users/vermaa/Downloads/models/epoch_10", local_files_only=True)
     """
 
-    prompt = "<DocVQA>" + " Extract attributes brand, variety, weight of the product from artwork image in a valid key-value pair JSON."
+    prompt = "<DocVQA>" + " Extract all attributes like brand, variety, weight of the product from artwork image in a valid key-value pair JSON."
 
     image = Image.open(args.image_loc)
 
