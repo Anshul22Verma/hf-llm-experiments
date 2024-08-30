@@ -52,7 +52,7 @@ class ArtworkTaggingDataset(Dataset):
                 "role": "assistant"})
         
         # first_answer = str(ans)[:2000]
-        image = Image.open(example['image']).convert("RGB")
+        image = Image.open(example['image'])  # .convert("RGB")
         print(messages)
         print(image)
         return {"messages": messages, "images": [image]}
