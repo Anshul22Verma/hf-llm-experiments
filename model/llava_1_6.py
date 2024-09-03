@@ -1,6 +1,6 @@
 from transformers import AutoProcessor, AutoTokenizer
 import torch
-from transformers import BitsAndBytesConfig, LlavaNextForConditionalGeneration
+from transformers import BitsAndBytesConfig, LlavaForConditionalGeneration
 
 from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model
 
@@ -64,13 +64,13 @@ def llava_model(
                 # lora_alpha=32,
                 # lora_dropout=0.1,
             )
-        model = LlavaNextForConditionalGeneration.from_pretrained(
+        model = LlavaForConditionalGeneration.from_pretrained(
             MODEL_ID,
             torch_dtype=torch.float16,
             quantization_config=bnb_config
         )
     else:
-        model = LlavaNextForConditionalGeneration.from_pretrained(
+        model = LlavaForConditionalGeneration.from_pretrained(
             MODEL_ID,
             torch_dtype=torch.float16,
             _attn_implementation="flash_attention_2"
