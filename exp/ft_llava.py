@@ -53,7 +53,7 @@ if __name__ == "__main__":
         output_dir=log_dir,
         report_to="tensorboard",
         learning_rate=1e-6,
-        per_device_train_batch_size=8,
+        per_device_train_batch_size=1,
         gradient_accumulation_steps=1,
         logging_steps=5,
         num_train_epochs=epochs,

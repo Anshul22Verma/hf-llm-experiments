@@ -28,10 +28,10 @@ class ArtworkTaggingDataset(Dataset):
         example = self.df.iloc[idx]
         attr = eval(example['answers'])
         messages = []
-        i = 0
+        
         for k in attr.keys():
             if len(str(attr[k])) > 0 and attr[k]:
-                if i == 0:
+                if len(messages) == 0:
                     messages.append({
                             "content": [{"index": None, "text": f"What is {k} for this product?\n", "type": "text"},
                                         {"index": None, "text": None, "type": "image"}],
@@ -43,8 +43,7 @@ class ArtworkTaggingDataset(Dataset):
                 messages.append({
                         "content": [{"index": None, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
                         "role": "assistant"})
-            i += 1
-        
+            
         messages.append({
                 "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"}],
                 "role": "user"})
@@ -73,9 +72,6 @@ class LLavaDataCollator:
             text += self.processor.tokenizer.eos_token
             texts.append(text)
             images.append(example["images"][0])
-
-            print(len(messages))
-            print(len(images))
             image_sizes.append((example["images"][0].width, example["images"][0].height))
 
         batch = self.processor(texts, images, return_tensors="pt", padding=True)
