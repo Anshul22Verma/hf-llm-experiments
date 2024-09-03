@@ -43,10 +43,16 @@ class ArtworkTaggingDataset(Dataset):
                 messages.append({
                         "content": [{"index": None, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
                         "role": "assistant"})
-            
-        messages.append({
-                "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"}],
-                "role": "user"})
+        
+        if len(messages) == 0:
+            messages.append({
+                    "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"},
+                                {"index": None, "text": None, "type": "image"}],
+                    "role": "user"})
+        else:
+            messages.append({
+                    "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"}],
+                    "role": "user"})
         messages.append({
                 "content": [{"index": None, "text": str(attr), "type": "text"}],
                 "role": "assistant"})
