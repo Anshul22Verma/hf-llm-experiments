@@ -66,7 +66,6 @@ class LLavaDataCollator:
         images = []
         image_sizes = []
         for example in examples:
-            print(example["images"])
             messages = example["messages"]
             text = self.processor.tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=False
@@ -74,6 +73,9 @@ class LLavaDataCollator:
             text += self.processor.tokenizer.eos_token
             texts.append(text)
             images.append(example["images"][0])
+
+            print(len(messages))
+            print(len(images))
             image_sizes.append((example["images"][0].width, example["images"][0].height))
 
         batch = self.processor(texts, images, return_tensors="pt", padding=True)
@@ -83,7 +85,6 @@ class LLavaDataCollator:
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
         batch["labels"] = labels
-        # print(batch)
         return batch
 
 def get_artwork_tagging_datasets(dataset_csv: str):
