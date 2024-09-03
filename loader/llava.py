@@ -31,21 +31,25 @@ class ArtworkTaggingDataset(Dataset):
         i = 0
         for k in attr.keys():
             if len(str(attr[k])) > 0 and attr[k]:
+                if i == 0:
+                    messages.append({
+                            "content": [{"index": None, "text": f"What is {k} for this product?\n", "type": "text"},
+                                        {"index": None, "text": None, "type": "image"}],
+                            "role": "user"})
+                else:
+                    messages.append({
+                            "content": [{"index": None, "text": f"What is {k} for this product?\n", "type": "text"}],
+                            "role": "user"})
                 messages.append({
-                        "content": [{"index": 0, "text": f"What is {k} for this product?\n", "type": "text"},
-                                    {"index": 0, "text": None, "type": "image"}],
-                        "role": "user"})
-                messages.append({
-                        "content": [{"index": i, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
+                        "content": [{"index": None, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
                         "role": "assistant"})
             i += 1
         
         messages.append({
-                "content": [{"index": i, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"},
-                            {"index": 0, "text": None, "type": "image"}],
+                "content": [{"index": None, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"}],
                 "role": "user"})
         messages.append({
-                "content": [{"index": i, "text": str(attr), "type": "text"}],
+                "content": [{"index": None, "text": str(attr), "type": "text"}],
                 "role": "assistant"})
         
         # first_answer = str(ans)[:2000]
@@ -62,39 +66,24 @@ class LLavaDataCollator:
         images = []
         image_sizes = []
         for example in examples:
+            print(example["images"])
             messages = example["messages"]
-            text = "A chat between a artwork operator and an artificial intelligence assistant. The assistant extracts different fields from artwork files based on the content present in the artwork in text and visual format."
-            user = []
-            assistant = []
-            for message in messages:
-                if message["role"] == "user":
-                    for content in message["content"]:
-                        if content["type"] == "text":
-                            user.append(content["text"])
-                
-                elif message["role"] == "assistant":
-                    for content in message["content"]:
-                        if content["type"] == "text":
-                            assistant.append(content["text"])
-            
-            text += f" <image> USER: {'; '.join(user)}" + f" ASSISTANT: {'; '.join(assistant)}"
+            text = self.processor.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=False
+            )
             text += self.processor.tokenizer.eos_token
-            # text = self.processor.tokenizer.apply_chat_template(
-            #     messages, tokenize=False, add_generation_prompt=False
-            # )
             texts.append(text)
             images.append(example["images"][0])
             image_sizes.append((example["images"][0].width, example["images"][0].height))
 
         batch = self.processor(texts, images, return_tensors="pt", padding=True)
-        print(batch.keys())
-        # print(batch["image_sizes"])
+        print(batch["image_sizes"])
 
         labels = batch["input_ids"].clone()
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
         batch["labels"] = labels
-        # batch["image_sizes"] = []
+        batch["image_sizes"] = []
         # print(batch)
         return batch
 

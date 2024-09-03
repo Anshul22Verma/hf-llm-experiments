@@ -87,9 +87,8 @@ def llava_model(
 
     model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, lora_config)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-    
-    return model, processor, tokenizer, lora_config
+
+    return model, processor, lora_config
 
 
 # to get tokenizer
