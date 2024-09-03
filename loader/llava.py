@@ -31,22 +31,23 @@ class ArtworkTaggingDataset(Dataset):
         messages = []
         i = 0
         for k in attr.keys():
-            if i == 0:
+            if len(str(attr[k])) > 0 and attr[k]:
+                if i == 0:
+                    messages.append({
+                            "content": [{"index": 0, "text": f"What is {k} for this product?\n", "type": "text"},
+                                        {"index": 0, "text": None, "type": "image"}],
+                            "role": "user"})
+                else:
+                    messages.append({
+                            "content": [{"index": i, "text": f"What is {k} for this product?\n", "type": "text"}],
+                            "role": "user"})
                 messages.append({
-                        "content": [{"index": 0, "text": f"What is {k} for this product?\n", "type": "text"},
-                                    {"index": 0, "text": None, "type": "image"}],
-                        "role": "user"})
-            else:
-                messages.append({
-                        "content": [{"index": i, "text": f"What is {k} for this product?\n", "type": "text"}],
-                        "role": "user"})
-            messages.append({
-                    "content": [{"index": i, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
-                    "role": "assistant"})
+                        "content": [{"index": i, "text": f"{str(k)}: {str(attr[k])}", "type": "text"}],
+                        "role": "assistant"})
             i += 1
         
         messages.append({
-                "content": [{"index": i, "text": f"Extract all the key-fields about the product in the artwork?\n", "type": "text"}],
+                "content": [{"index": i, "text": f"Extract all the key-fields about the product in the artwork?\n Language corresponds to languahe used in text of the artwork", "type": "text"}],
                 "role": "user"})
         messages.append({
                 "content": [{"index": i, "text": str(attr), "type": "text"}],
@@ -54,8 +55,8 @@ class ArtworkTaggingDataset(Dataset):
         
         # first_answer = str(ans)[:2000]
         image = Image.open(example['image'])  # .convert("RGB")
-        print(example['image'])
-        print(f"Image {example['image']} exists {os.path.exists(example['image'])}")
+        # print(example['image'])
+        # print(f"Image {example['image']} exists {os.path.exists(example['image'])}")
         return {"messages": messages, "images": [image]}
 
 
@@ -64,14 +65,15 @@ class LLavaDataCollator:
         self.processor = processor
 
     def __call__(self, examples):
-        print(examples)
         texts = []
         images = []
         for example in examples:
+            print(example["images"])
             messages = example["messages"]
             text = self.processor.tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=False
             )
+            text += self.processor.tokenizer.eos_token
             texts.append(text)
             images.append(example["images"][0])
 
@@ -81,7 +83,7 @@ class LLavaDataCollator:
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
         batch["labels"] = labels
-        print(batch)
+        # print(batch)
         return batch
 
 def get_artwork_tagging_datasets(dataset_csv: str):
