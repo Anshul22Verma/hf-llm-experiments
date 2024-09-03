@@ -33,7 +33,7 @@ def llava_model(
     USE_QLORA = qlora
 
     processor = AutoProcessor.from_pretrained(MODEL_ID)
-    processor.tokenizer.padding_side = "right"
+    # processor.tokenizer.padding_side = "right"
 
     # Load the model
 
@@ -100,5 +100,5 @@ def get_llava_tokenizer(processor):
     tokenizer.chat_template = LLAVA_CHAT_TEMPLATE
     processor = AutoProcessor.from_pretrained(MODEL_ID)
     tokenizer.padding_side = 'right'
-    # processor.tokenizer = tokenizer
+    processor.tokenizer = tokenizer
     return tokenizer, processor
