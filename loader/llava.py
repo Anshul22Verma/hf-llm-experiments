@@ -68,12 +68,12 @@ class LLavaDataCollator:
             assistant = []
             for message in messages:
                 if message["role"] == "user":
-                    for content in messages["content"]:
+                    for content in message["content"]:
                         if content["type"] == "text":
                             user.append(content["text"])
                 
                 elif message["role"] == "assistant":
-                    for content in messages["content"]:
+                    for content in message["content"]:
                         if content["type"] == "text":
                             assistant.append(content["text"])
             
