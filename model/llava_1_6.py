@@ -33,7 +33,7 @@ def llava_model(
     USE_QLORA = qlora
 
     processor = AutoProcessor.from_pretrained(MODEL_ID)
-    # processor.tokenizer.padding_side = "right"
+    processor.tokenizer.padding_side = "right"
 
     # Load the model
 
@@ -87,8 +87,9 @@ def llava_model(
 
     model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, lora_config)
-
-    return model, processor, lora_config
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    
+    return model, processor, tokenizer, lora_config
 
 
 # to get tokenizer
