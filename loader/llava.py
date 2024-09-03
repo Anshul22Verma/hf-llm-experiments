@@ -75,8 +75,6 @@ class LLavaDataCollator:
             image_sizes.append((example["images"][0].width, example["images"][0].height))
 
         batch = self.processor(texts, images, return_tensors="pt", padding=True)
-        print(batch.keys())
-
         labels = batch["input_ids"].clone()
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
