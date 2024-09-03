@@ -66,7 +66,6 @@ class LLavaDataCollator:
         images = []
         image_sizes = []
         for example in examples:
-            print(example["images"])
             messages = example["messages"]
             text = self.processor.tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=False
@@ -77,7 +76,8 @@ class LLavaDataCollator:
             image_sizes.append((example["images"][0].width, example["images"][0].height))
 
         batch = self.processor(texts, images, return_tensors="pt", padding=True)
-        print(batch["image_sizes"])
+        print(batch.keys())
+        # print(batch["image_sizes"])
 
         labels = batch["input_ids"].clone()
         if self.processor.tokenizer.pad_token_id is not None:
