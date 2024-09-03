@@ -59,7 +59,6 @@ if __name__ == "__main__":
         num_train_epochs=epochs,
         gradient_checkpointing=True,
         remove_unused_columns=False,
-        image_sizes=256,
         fp16=True,
         bf16=False
     )
