@@ -78,8 +78,8 @@ def llava_model(
 
 
     lora_config = LoraConfig(
-        r=16,
-        lora_alpha=32,
+        r=12,
+        lora_alpha=24,
         lora_dropout=0.1,
         target_modules="all-linear",  # find_all_linear_names(model),
         init_lora_weights="gaussian",
