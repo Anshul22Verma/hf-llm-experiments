@@ -34,8 +34,8 @@ if __name__ == "__main__":
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
 
-    model, processor, lora_config = llava_model(train_vision_tower=False, device=device, lora=False, qlora=True)
-    tokenizer, processor = get_llava_tokenizer(processor=processor)
+    model, processor, tokenizer, lora_config = llava_model(train_vision_tower=False, device=device, lora=False, qlora=True)
+    # tokenizer, processor = get_llava_tokenizer(processor=processor)
 
     data_collator = LLavaDataCollator(processor)
     # max_len = ""

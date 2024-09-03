@@ -63,10 +63,25 @@ class LLavaDataCollator:
         image_sizes = []
         for example in examples:
             messages = example["messages"]
-            text = self.processor.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=False
-            )
+            text = "A chat between a artwork operator and an artificial intelligence assistant. The assistant extracts different fields from artwork files based on the content present in the artwork in text and visual format."
+            user = []
+            assistant = []
+            for message in messages:
+                if message["role"] == "user":
+                    for content in messages["content"]:
+                        if content["type"] == "text":
+                            user.append(content["text"])
+                
+                elif message["role"] == "assistant":
+                    for content in messages["content"]:
+                        if content["type"] == "text":
+                            assistant.append(content["text"])
+            
+            text += f" <image> USER: {'; '.join(user)}" + f" ASSISTANT: {'; '.join(assistant)}"
             text += self.processor.tokenizer.eos_token
+            # text = self.processor.tokenizer.apply_chat_template(
+            #     messages, tokenize=False, add_generation_prompt=False
+            # )
             texts.append(text)
             images.append(example["images"][0])
             image_sizes.append((example["images"][0].width, example["images"][0].height))
