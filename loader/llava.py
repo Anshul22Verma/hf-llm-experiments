@@ -83,7 +83,7 @@ class LLavaDataCollator:
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
         batch["labels"] = labels
-        batch["image_sizes"] = []
+        # batch["image_sizes"] = []
         # print(batch)
         return batch
 

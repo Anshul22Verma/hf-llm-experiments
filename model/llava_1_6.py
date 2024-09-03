@@ -28,7 +28,7 @@ def llava_model(
     lora: bool = False,
     qlora: bool = False
 ):
-    MODEL_ID = "llava-hf/llava-1.5-7b-hf"  # "liuhaotian/llava-v1.6-mistral-7b" 
+    MODEL_ID = "liuhaotian/llava-v1.6-mistral-7b"  # "llava-hf/llava-1.5-7b-hf"
     USE_LORA = lora
     USE_QLORA = qlora
 
@@ -93,9 +93,9 @@ def llava_model(
 
 # to get tokenizer
 def get_llava_tokenizer(processor):
-    MODEL_ID = "llava-hf/llava-1.5-7b-hf"  # "liuhaotian/llava-v1.6-mistral-7b"
+    MODEL_ID = "liuhaotian/llava-v1.6-mistral-7b"  # "llava-hf/llava-1.5-7b-hf"
 
-    LLAVA_CHAT_TEMPLATE = """A chat between a artwork operator and an artificial intelligence assistant. The assistant extracts different fiels from artwork based on the user's questions. {% for message in messages %}{% if message['role'] == 'user' %}USER: {% else %}ASSISTANT: {% endif %}{% for item in message['content'] %}{% if item['type'] == 'text' %}{{ item['text'] }}{% elif item['type'] == 'image' %}<image>{% endif %}{% endfor %}{% if message['role'] == 'user' %} {% else %}{{eos_token}}{% endif %}{% endfor %}"""
+    LLAVA_CHAT_TEMPLATE = """A chat between a artwork operator and an artificial intelligence assistant. The assistant extracts different fields from artwork files based on the content present in the artwork in text and visual format. {% for message in messages %}{% if message['role'] == 'user' %}USER: {% else %}ASSISTANT: {% endif %}{% for item in message['content'] %}{% if item['type'] == 'text' %}{{ item['text'] }}{% elif item['type'] == 'image' %}<image>{% endif %}{% endfor %}{% if message['role'] == 'user' %} {% else %}{{eos_token}}{% endif %}{% endfor %}"""
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
     tokenizer.chat_template = LLAVA_CHAT_TEMPLATE
     processor = AutoProcessor.from_pretrained(MODEL_ID)
