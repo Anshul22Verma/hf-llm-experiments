@@ -54,7 +54,7 @@ if __name__ == "__main__":
         report_to="tensorboard",
         learning_rate=1e-6,
         per_device_train_batch_size=1,
-        gradient_accumulation_steps=1,
+        # gradient_accumulation_steps=1,  need to set required_gradients for inputs
         logging_steps=5,
         num_train_epochs=epochs,
         gradient_checkpointing=True,
