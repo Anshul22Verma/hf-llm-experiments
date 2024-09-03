@@ -33,8 +33,6 @@ class ArtworkTaggingDataset(Dataset):
         #     "Weight": attr["Weight"]
         # }
         first_answer = str(ans)[:1000]
-        print(example['image'])
-        print(f"Image {example["image"]} exists {os.path.exists(example['image'])}")
         image = Image.open(example['image']).convert("RGB")
         return question, first_answer, image
     

@@ -54,8 +54,8 @@ class ArtworkTaggingDataset(Dataset):
         
         # first_answer = str(ans)[:2000]
         image = Image.open(example['image'])  # .convert("RGB")
-        print(messages)
-        print(image)
+        print(example['image'])
+        print(f"Image {example["image"]} exists {os.path.exists(example['image'])}")
         return {"messages": messages, "images": [image]}
 
 
