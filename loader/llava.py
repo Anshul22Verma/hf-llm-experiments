@@ -26,7 +26,6 @@ class ArtworkTaggingDataset(Dataset):
         
     def __getitem__(self, idx):
         example = self.df.iloc[idx]
-        # print(example['image'])
         attr = eval(example['answers'])
         messages = []
         i = 0
@@ -55,8 +54,6 @@ class ArtworkTaggingDataset(Dataset):
         
         # first_answer = str(ans)[:2000]
         image = Image.open(example['image'])  # .convert("RGB")
-        # print(example['image'])
-        # print(f"Image {example['image']} exists {os.path.exists(example['image'])}")
         return {"messages": messages, "images": [image]}
 
 
@@ -67,6 +64,7 @@ class LLavaDataCollator:
     def __call__(self, examples):
         texts = []
         images = []
+        image_sizes = []
         for example in examples:
             print(example["images"])
             messages = example["messages"]
@@ -76,13 +74,16 @@ class LLavaDataCollator:
             text += self.processor.tokenizer.eos_token
             texts.append(text)
             images.append(example["images"][0])
+            image_sizes.append((example["images"][0].width, example["images"][0].height))
 
         batch = self.processor(texts, images, return_tensors="pt", padding=True)
+        print(batch["image_sizes"])
 
         labels = batch["input_ids"].clone()
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
         batch["labels"] = labels
+        batch["image_sizes"] = []
         # print(batch)
         return batch
 
