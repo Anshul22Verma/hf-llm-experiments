@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--data_csv', 
                         help="Location of the csv with master data")
-    parser.add_argument('-e', "--epochs", default=7,
+    parser.add_argument('-e', "--epochs", default=1,
                         help="Number of epochs to train the model for")
     parser.add_argument('-bs', "--batch_size", default=1,
                         help="Batch size of the loaders (use 1 for training in T4 \
